@@ -174,6 +174,13 @@ class User {
     existingUser.ownStories = response.data.user.stories.map(s => new Story(s));
     return existingUser;
   }
+
+  async addFav(username, storyId) {
+
+    let response = await axios.post(`${BASE_URL}/users/${username}/favorites/${storyId}`);
+
+    
+  }
 }
 
 /**

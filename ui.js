@@ -14,6 +14,7 @@ $(async function() {
   const $navSubmit = $("#nav-submit");
   const $navFavorites = $("#nav-favorites");
   const $navStories = $("#nav-stories");
+  const $favoritesList = $("#favorited-articles");
 
   // global storyList variable
   let storyList = null;
@@ -115,15 +116,14 @@ $(async function() {
 
 
   /**
-   * Event Handler for Clicking Login
+   * Event Handler for Nav Favorites
    */
 
-  // $navLogin.on("click", function() {
-  //   // Show the Login and Create Account Forms
-  //   $loginForm.slideToggle();
-  //   $createAccountForm.slideToggle();
-  //   $allStoriesList.toggle();
-  // });
+  $navFavorites.on("click", function() {
+    // Show the Login and Create Account Forms
+    $allStoriesList.hide();
+    $favoritesList.show();
+  });
 
   /**
    * Event Handler for Clicking Login
@@ -207,6 +207,33 @@ $(async function() {
     for (let story of storyList.stories) {
       const result = generateStoryHTML(story);
       $allStoriesList.append(result);
+
+      // Adding event listener to star button
+      // let starButton = $(`#star-${story.storyId}`);
+      // starButton.on('click', "#starS" starButtonHandler.bind(starButton));
+
+      // let starButtonS = $(`#starS-${story.storyId}`);
+      // starButtonR.on('click', function () {starButtonR.hide());
+      // starButtonS.on('click', function () {console.log(`#starS-${story.storyId}`)});
+    }
+
+    $allStoriesList.on('click', '.fa-star', starButtonHandler);
+  }
+
+  function starButtonHandler (evt) {
+    console.log('fired');
+    // Make evt.target into jQuery object
+    // "use strict" above js file to make sure you don't accidently initialize global variables
+    const starButton = $(evt.target);
+    // let starClass = starButton.classList.value;
+
+    // hasClass has to have comma separated classes to check for multiple classes
+    if (starButton.hasClass("far", "fa-star")) {
+      starButton.removeClass("far");
+      starButton.addClass("fas");
+    } else {
+      starButton.removeClass("fas");
+      starButton.addClass("far");
     }
   }
 
@@ -217,9 +244,13 @@ $(async function() {
   function generateStoryHTML(story) {
     let hostName = getHostName(story.url);
 
+    // let star = $('<i class="far fa-star"></i>');
+    // star.on('click', function () {console.log('hi')});
+
     // render story markup
     const storyMarkup = $(`
       <li id="${story.storyId}">
+        <i class="far fa-star" id='star-${story.storyId}'></i>
         <a class="article-link" href="${story.url}" target="a_blank">
           <strong>${story.title}</strong>
         </a>
