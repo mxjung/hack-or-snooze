@@ -220,8 +220,8 @@ $(async function() {
     $allStoriesList.on('click', '.fa-star', starButtonHandler);
   }
 
-  function starButtonHandler (evt) {
-    console.log('fired');
+  async function starButtonHandler (evt) {
+    const storyId = evt.target.id.slice(5, evt.target.id.length);
     // Make evt.target into jQuery object
     // "use strict" above js file to make sure you don't accidently initialize global variables
     const starButton = $(evt.target);
@@ -231,6 +231,7 @@ $(async function() {
     if (starButton.hasClass("far", "fa-star")) {
       starButton.removeClass("far");
       starButton.addClass("fas");
+      await currentUser.addFav(currentUser.username, storyId, currentUser.loginToken);
     } else {
       starButton.removeClass("fas");
       starButton.addClass("far");

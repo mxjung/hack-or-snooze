@@ -175,10 +175,14 @@ class User {
     return existingUser;
   }
 
-  async addFav(username, storyId) {
+  async addFav(username, storyId, loginToken) {
+    console.log(loginToken);
 
-    let response = await axios.post(`${BASE_URL}/users/${username}/favorites/${storyId}`);
-
+    let response = await axios.post(`${BASE_URL}/users/${username}/favorites/${storyId}`, 
+    {
+      token: loginToken
+    });
+    return response;
     
   }
 }
